@@ -1,5 +1,6 @@
 package com.scaler.backend.capstone.project.controller;
 
+import com.scaler.backend.capstone.project.dto.ProductRequestDTO;
 import com.scaler.backend.capstone.project.models.Product;
 import com.scaler.backend.capstone.project.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +30,14 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        Product createdProduct = productService.addNewProduct(product);
+    public ResponseEntity<Product> addProduct(@RequestBody ProductRequestDTO productRequestDTO) {
+        Product createdProduct = productService.addNewProduct(productRequestDTO);
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        return productService.updateProduct(id, product);
+    public Product updateProduct(@PathVariable Long id, @RequestBody ProductRequestDTO productRequestDTO) {
+        return productService.updateProduct(id, productRequestDTO);
     }
 
 

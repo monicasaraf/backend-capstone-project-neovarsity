@@ -1,6 +1,7 @@
 package com.scaler.backend.capstone.project.services;
 
 
+import com.scaler.backend.capstone.project.dto.ProductRequestDTO;
 import com.scaler.backend.capstone.project.models.Product;
 import com.scaler.backend.capstone.project.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +31,27 @@ public class EcommStoreProductService implements IProductService {
     }
 
     @Override
-    public Product addNewProduct(Product product) {
+    public Product addNewProduct(ProductRequestDTO productRequestDTO) {
+        Product product = new Product();
+        product.setTitle(productRequestDTO.getProductName());
+        product.setImageUrl(productRequestDTO.getImageURL());
+        productRequestDTO.setCategory(productRequestDTO.getCategory());
+        productRequestDTO.setPrice(productRequestDTO.getPrice());
+
         return productRepository.save(product);
     }
 
     @Override
-    public Product updateProduct(Long productId, Product product) {
+    public Product updateProduct(Long productId, ProductRequestDTO productRequestDTO) {
         if (productRepository.existsById(productId)) {
+
+            Product product = new Product();
             product.setId(productId);
+            product.setTitle(productRequestDTO.getProductName());
+            product.setImageUrl(productRequestDTO.getImageURL());
+            productRequestDTO.setCategory(productRequestDTO.getCategory());
+            productRequestDTO.setPrice(productRequestDTO.getPrice());
+
             return productRepository.save(product);
         }
         return null;
