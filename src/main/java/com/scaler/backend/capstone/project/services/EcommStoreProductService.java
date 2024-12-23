@@ -57,6 +57,11 @@ public class EcommStoreProductService implements IProductService {
         return productRepository.save(product);
     }
 
+    @Override
+    public FakeStoreProductResponse updateProduct(Long productId, ProductRequestDTO productRequestDTO) {
+        return null;
+    }
+
 //    @Override
 //    public Product updateProduct(Long productId, ProductRequestDTO productRequestDTO) {
 //        if (productRepository.existsById(productId)) {
