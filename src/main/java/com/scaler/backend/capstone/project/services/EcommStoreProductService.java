@@ -2,6 +2,7 @@ package com.scaler.backend.capstone.project.services;
 
 
 import com.scaler.backend.capstone.project.dto.ProductRequestDTO;
+import com.scaler.backend.capstone.project.dto.ProductResponseDTO;
 import com.scaler.backend.capstone.project.fakestoreapi.FakeStoreProductResponse;
 import com.scaler.backend.capstone.project.models.Categories;
 import com.scaler.backend.capstone.project.models.Product;
@@ -19,6 +20,7 @@ import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //@Service
@@ -33,12 +35,25 @@ public class EcommStoreProductService implements IProductService {
     private ProductRepository productRepository;
 
     @Override
-    public List<FakeStoreProductResponse> getAllProducts() {
+    public List<Product> getAllProducts() {
         //return productRepository.findAll();
         RestTemplate restTemplate = restTemplateBuilder.build();
-
+        List<Product> productList = new ArrayList<>();
         FakeStoreProductResponse[] fakeStoreProductResponses = restTemplate.getForEntity("https://fakestoreapi.com/products", FakeStoreProductResponse[].class).getBody();
-        return List.of(fakeStoreProductResponses);
+        for(int i=0; i<fakeStoreProductResponses.length; i++) {
+            FakeStoreProductResponse fakeStoreProductResponse = fakeStoreProductResponses[i];
+            Product product = new Product();
+            product.setId(Long.valueOf(fakeStoreProductResponse.getId()));
+            product.setTitle(fakeStoreProductResponse.getTitle());
+            product.setPrice(fakeStoreProductResponse.getPrice());
+            Categories category = new Categories();
+            category.setName(fakeStoreProductResponse.getCategory());
+            product.setCategory(category);
+            product.setImageUrl(fakeStoreProductResponse.getImage());
+            product.setDescription(fakeStoreProductResponse.getDescription());
+            productList.add(product);
+        }
+        return productList;
     }
 
     @Override
@@ -58,7 +73,7 @@ public class EcommStoreProductService implements IProductService {
     }
 
     @Override
-    public FakeStoreProductResponse updateProduct(Long productId, ProductRequestDTO productRequestDTO) {
+    public Product updateProduct(Long productId, ProductRequestDTO productRequestDTO) {
         return null;
     }
 
@@ -107,7 +122,7 @@ public class EcommStoreProductService implements IProductService {
     }
 
     @Override
-    public FakeStoreProductResponse getProductById(Long productId) {
+    public Product getProductById(Long productId) {
 
         /**
          * 1. Call fakestoreAPI
@@ -116,8 +131,14 @@ public class EcommStoreProductService implements IProductService {
          */
         RestTemplate restTemplate = restTemplateBuilder.build();
         FakeStoreProductResponse dto = restTemplate.getForEntity("https://fakestoreapi.com/products/{id}", FakeStoreProductResponse.class, productId).getBody();
-
-        return dto;
+        Product product = new Product();
+        product.setId(Long.valueOf(dto.getId()));
+        product.setTitle(dto.getTitle());
+        product.setPrice(dto.getPrice());
+        product.setImageUrl(dto.getImage());
+        product.getCategory().setName(dto.getCategory());
+        product.getCategory().setDescription(dto.getDescription());
+        return product;
     }
 
     private <T> ResponseEntity<T> requestForEntity(HttpMethod httpMethod, String url, @Nullable Object request,
