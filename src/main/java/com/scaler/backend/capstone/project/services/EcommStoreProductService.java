@@ -1,6 +1,7 @@
 package com.scaler.backend.capstone.project.services;
 
 
+import com.scaler.backend.capstone.project.clients.fakestore.FakeStoreClient;
 import com.scaler.backend.capstone.project.dto.ProductRequestDTO;
 import com.scaler.backend.capstone.project.dto.ProductResponseDTO;
 import com.scaler.backend.capstone.project.fakestoreapi.FakeStoreProductResponse;
@@ -33,15 +34,17 @@ public class EcommStoreProductService implements IProductService {
 
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private FakeStoreClient fakeStoreClient;
 
     @Override
     public List<Product> getAllProducts() {
         //return productRepository.findAll();
         RestTemplate restTemplate = restTemplateBuilder.build();
         List<Product> productList = new ArrayList<>();
-        FakeStoreProductResponse[] fakeStoreProductResponses = restTemplate.getForEntity("https://fakestoreapi.com/products", FakeStoreProductResponse[].class).getBody();
-        for(int i=0; i<fakeStoreProductResponses.length; i++) {
-            FakeStoreProductResponse fakeStoreProductResponse = fakeStoreProductResponses[i];
+        List<FakeStoreProductResponse> fakeStoreProductDtos = fakeStoreClient.getAllProducts();
+        for(int i=0; i<fakeStoreProductDtos.size(); i++) {
+            FakeStoreProductResponse fakeStoreProductResponse = fakeStoreProductDtos.get(i);
             Product product = new Product();
             product.setId(Long.valueOf(fakeStoreProductResponse.getId()));
             product.setTitle(fakeStoreProductResponse.getTitle());

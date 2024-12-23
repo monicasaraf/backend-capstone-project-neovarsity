@@ -98,7 +98,7 @@ public class ProductController {
         productResponse.setCategory(response.getCategory().getName());
         productResponse.setImageUrl(response.getImageUrl());
         productResponse.setDescription(response.getDescription());
-        
+
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 
