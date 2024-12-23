@@ -12,8 +12,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 @RestController
@@ -55,8 +53,14 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody ProductRequestDTO productRequestDTO) {
+    public FakeStoreProductResponse updateProduct(@PathVariable Long id, @RequestBody ProductRequestDTO productRequestDTO) {
         return productService.updateProduct(id, productRequestDTO);
+    }
+
+    @PatchMapping("/")
+    public ResponseEntity<FakeStoreProductResponse> patchProduct(@PathVariable Long id, @RequestBody ProductRequestDTO productRequestDTO) {
+        FakeStoreProductResponse response = productService.updateProduct(id, productRequestDTO);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

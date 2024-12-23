@@ -10,8 +10,9 @@ public interface IProductService {
     List<FakeStoreProductResponse> getAllProducts();
     Product getSingleProduct(Long productId);
     Product addNewProduct(ProductRequestDTO productRequestDTO);
-    Product updateProduct(Long productId, ProductRequestDTO productRequestDTO);
+    FakeStoreProductResponse updateProduct(Long productId, ProductRequestDTO productRequestDTO);
     void deleteProduct(Long productId);
 
     FakeStoreProductResponse getProductById(Long productId);
+
 }
