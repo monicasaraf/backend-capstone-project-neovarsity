@@ -1,4 +1,4 @@
-package com.scaler.backend.capstone.project.clients.fakestore;
+package com.scaler.backend.capstone.project.clients.fakestore.client;
 
 import com.scaler.backend.capstone.project.fakestoreapi.FakeStoreProductResponse;
 import org.springframework.boot.web.client.RestTemplateBuilder;

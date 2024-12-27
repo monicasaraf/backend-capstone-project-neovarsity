@@ -1,9 +1,8 @@
 package com.scaler.backend.capstone.project.services;
 
 
-import com.scaler.backend.capstone.project.clients.fakestore.FakeStoreClient;
+import com.scaler.backend.capstone.project.clients.fakestore.client.FakeStoreClient;
 import com.scaler.backend.capstone.project.dto.ProductRequestDTO;
-import com.scaler.backend.capstone.project.dto.ProductResponseDTO;
 import com.scaler.backend.capstone.project.fakestoreapi.FakeStoreProductResponse;
 import com.scaler.backend.capstone.project.models.Categories;
 import com.scaler.backend.capstone.project.models.Product;
